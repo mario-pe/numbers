@@ -1,0 +1,12 @@
+{% extends 'zad/base.html' %}
+
+{%  block content %}
+    {% if number %}
+        {{ number }}: {{ label }}
+    {% endif %}
+     <form class="form-horizontal"  action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'zad/form_template.html' %}
+    </form>
+    <a href="{% url 'zad:random' %}"><button type="button">losuj</button></a>
+{% endblock %}
