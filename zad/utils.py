@@ -23,6 +23,9 @@ ones = ['', 'jeden', 'dwa', 'trzy', 'cztery', 'pięc', 'sześć', 'siedem', 'osi
 def number_text_converter(number, index):
     if len(number) > 3:
         return 'Błąd'
+    if number == '000':
+        return ''
+
     number = number.zfill(3)
     result = ''
     number_of_hundreds = int(number[0])
@@ -31,7 +34,6 @@ def number_text_converter(number, index):
 
     if number_of_hundreds > 0:
         result += houndreds[number_of_hundreds] + ' '
-
     if number_of_tens == 0:
         result += ones[number_of_ones] + ' '
     elif number_of_tens == 1:
@@ -65,30 +67,17 @@ def word_generator(number):
         label += 'minus '
         number = number[1:]
 
-    print('number: ' + str(number))
     number = number.lstrip("0")
-    print('number: ' + str(number))
     lenght = len(number)
-    if lenght > 12:
-        return "zbyt duza liczba, max 12 cyfr "
 
-    if lenght == 0:
-        return 'zera nie maja wartosci, wpisz poprawną liczbe'
+    if not number_is_valid(lenght):
+        return 'błędne dane'
 
-    ilosc_trojek = int(len(number) / 3)
-    modulo = len(number)%3
+    index = index_calculation(number)
 
-    counter = 0
-    if modulo != 0:
-        counter += 1
-    counter += ilosc_trojek
-
-    converted_numbers = prepare_numbers(number)
-
-    print(converted_numbers)
-    for i in converted_numbers:
-        label += number_text_converter(i, counter)
-        counter -= 1
+    for i in prepare_numbers(number):
+        label += number_text_converter(i, index)
+        index -= 1
     return label
 
 
@@ -99,3 +88,20 @@ def prepare_numbers(number):
     for c in correct_order_tabs:
         result.append(c[::-1])
     return result
+
+
+def number_is_valid(lenght):
+    if lenght > 12:
+        return False
+    if lenght == 0:
+        return False
+    else:
+        return True
+
+
+def index_calculation(number):
+    index = 0
+    if len(number) % 3 != 0:
+        index += 1
+    index += int(len(number) / 3)
+    return index

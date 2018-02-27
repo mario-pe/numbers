@@ -11,7 +11,6 @@ def index(request):
         form = NumberForm(request.POST)
         if form.is_valid():
             number = form.cleaned_data['number']
-            print('number' + number)
             form = NumberForm()
             label = word_generator(number)
             return render(request, 'zad/index.html', {'label': label, 'form': form, 'number': number})
@@ -20,12 +19,11 @@ def index(request):
     return render(request, 'zad/index.html', {'form': form})
 
 
-def random_number_generator(request):
+def random_number(request):
     if request.method == 'POST':
         form = NumberForm(request.POST)
         if form.is_valid():
             number = form.cleaned_data['number']
-            print('number' + number)
             form = NumberForm()
             label = word_generator(number)
             return render(request, 'zad/index.html', {'label': label, 'form': form, 'number': number})
